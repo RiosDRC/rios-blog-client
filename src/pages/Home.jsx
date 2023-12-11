@@ -6,11 +6,11 @@ import API_BASE_URL from "../apiConfig";
 
 axios.defaults.withCredentials = true;
 
-const Home = () => {
+const Home = ({searchParams}) => {
     const [posts,setPosts] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
-    const cat = useLocation().search
+    const cat = useLocation().search.replace('?cat=', '')
 
     useEffect(()=>{
         const fetchData = async ()=>{
