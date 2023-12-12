@@ -1,19 +1,20 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Layout from "../hocs/layouts/Layout";
 import { AuthContext } from "../context/authContext";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import API_BASE_URL from "../apiConfig";
+import { toast } from "react-toastify";
 
 
 const User = () => {
     const { currentUser, setCurrentUser } = useContext(AuthContext);
-    const [userImg, setUserImg] = useState("");
-    const [message, setMessage] = useState(null);
+    const [ isUploading, setIsUploading ] = useState(false);
 
-    const [inputs, setInputs] = useState({
+    const [ inputs, setInputs ] = useState({
         username: currentUser?.username,
         email: currentUser?.email,
+        img: currentUser?.img,
         old_password: "",
         new_password: "",
         conf_password: ""
@@ -25,9 +26,7 @@ const User = () => {
         try {
             const formData = new FormData();
             formData.append("file", file)
-            setMessage('Uploading File...')
             const res = await axios.post(API_BASE_URL + "/api/upload", formData)
-            setMessage('File uploaded')
             return res.data.sharedLink
         } catch(err){
             console.log(err)
@@ -37,23 +36,12 @@ const User = () => {
     const handleChange = e=>{
         setInputs(prev=>({...prev, [e.target.name]: e.target.value}))
     }
-    
-    useEffect(()=>{
-        const fetchData = async () =>{
-            try {
-                const res = await axios(`${API_BASE_URL}/api/users/userImg/${currentUser.id}`)
-                setUserImg(res.data.img)
-            } catch(err) {
-                console.log(err)
-            };
-        };
-        fetchData();
-    },[currentUser.img])
 
     const handleSubmit = async e =>{
         e.preventDefault()
         if (inputs.old_password !== "") {
-            const imgUrl = file? await upload() : userImg;
+            setIsUploading(true)
+            const imgUrl = file ? await upload() : inputs.img;
             try {            
                 const res = await axios.put(API_BASE_URL + "/api/users/updateInfo",{
                     username: inputs.username,
@@ -68,22 +56,23 @@ const User = () => {
                         'Authorization': `${currentUser.token}`
                       }
                 })
-                setCurrentUser({
-                    email: inputs.email,
-                    username: inputs.username,
-                    img: imgUrl,
-                    token: currentUser.token,
-                    id: currentUser.id
-                })
-                setUserImg(imgUrl)
-                setMessage(res.data)
+                if (res.status === 200) {
+                    setCurrentUser(prev => ({
+                        ...prev,
+                        email: inputs.email,
+                        username: inputs.username,
+                        img: imgUrl,
+                    }))
+                    toast.success('Info ipdated!')
+                }
             } catch(err) {
                 console.log(err)
-                setMessage(err.response.data)
+                toast.error(err.response.data)
             }
         } else {
-            setMessage("Current password required!")
+            toast.error("Current password required!")
         }
+        setIsUploading(false)
     }
 
     return (
@@ -125,15 +114,25 @@ const User = () => {
                         value={inputs.conf_password}
                         onChange={handleChange}
                         type="password"/>
-                    <input disabled={(inputs.new_password !== inputs.conf_password)} onClick={handleSubmit} className="button" type="button" value="Save"/>
-                    {message? <span className="message">{message}</span> :null}
+                    <button disabled={inputs.new_password !== inputs.conf_password || isUploading} onClick={handleSubmit} className="button"
+                    >{isUploading ? 'Uploading...' : 'Save'}</button>
                 </form>
                 <div className="imageSection">
                     <span>Profile picture</span>
-                    {userImg && !file ?<img src={userImg} alt="" /> : null}
-                    { file ? <img src={URL.createObjectURL(file)} alt=''/>: null}
+                    <div className="profileImg">
+                        {!file && inputs.img !== '' ?
+                            <img src={inputs.img} alt="" />
+                        : ''}
+                        {file &&
+                            <img src={URL.createObjectURL(file)} alt=''/>
+                        }
+                    </div>
                     <input style={{display: "none"}} type="file" id="file" onChange={e=>setFile(e.target.files[0])}/>
                     <label className="file" htmlFor="file">Upload image</label>
+                    <div className="imageOptions">
+                        <p onClick={() => {setInputs(prev => ({...prev, img: currentUser.img})); setFile(null)}}>Reset</p>
+                        <p onClick={() => {setFile(null); setInputs(prev => ({...prev, img: ''}))}}>Clear</p>
+                    </div>
                 </div>
             </div>
             :

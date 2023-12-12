@@ -2,7 +2,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../img/logo.png"
 import { useContext } from "react";
 import { AuthContext } from "../context/authContext";
-import Login from "../pages/Login";
 
 const Navbar = () => {
     const pathname = useLocation().pathname;
@@ -72,11 +71,6 @@ const Navbar = () => {
                     </div>
                 </div>
             </nav>
-            {loginView &&<div id="loginWindow">
-                <button id="closeButton" onClick={()=>setLoginView(prev=>!prev) }>Exit</button>
-                <Login/>
-            </div>
-            }
         </div>
     );
 }

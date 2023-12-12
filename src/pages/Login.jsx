@@ -1,24 +1,16 @@
 import { useContext, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext.js"
+import { toast } from "react-toastify";
 
 const Login = () => {
-
-    const location = useLocation().pathname
-
-    const { setLoginView } = useContext(AuthContext)
-
+    const { login } = useContext(AuthContext)
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState({
         username: "",
         password: ""
     });
-
-    const [err, setError] = useState(null);
-
-    const navigate = useNavigate();
-
-    const { login } = useContext(AuthContext)
-
+    
     const handleChange = (e) => {
         setInputs((prev) => ({...prev, [e.target.name]: e.target.value}))
     };
@@ -27,11 +19,9 @@ const Login = () => {
         e.preventDefault();
         try {
             await login(inputs)
-            if (location === "/rios-blog-client/login") {
-                navigate("/rios-blog-client")}
-            setLoginView(false)
+            navigate("/rios-blog-client")
         } catch (err) {
-            setError(err.response.data)
+            toast.warning(err.response.data)
         }
     }
 
@@ -52,8 +42,7 @@ const Login = () => {
                 name="password"
                 placeholder="password" />
                 <button onClick={handleSubmit}>Login</button>
-                {err &&<p>{err}</p>}
-                <span>Don't you have an account? <Link to="/rios-blog-client/register">Register</Link></span>
+                <span>You don't have an account? <Link to="/rios-blog-client/register">Register</Link></span>
             </form>
         </div>
     );

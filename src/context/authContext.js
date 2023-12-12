@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import API_BASE_URL from "../apiConfig"
+import { toast } from "react-toastify";
 
 axios.defaults.withCredentials = true;
 
@@ -14,13 +15,20 @@ export const AuthContextProvider = ({children}) => {
     const [loginView, setLoginView] = useState(false);
 
     const login = async(inputs) =>{
-        const res = await axios.post(API_BASE_URL + "/api/auth/login", inputs);
-        setCurrentUser(res.data);
+        try {
+            const res = await axios.post(API_BASE_URL + "/api/auth/login", inputs);
+            setCurrentUser(res.data);
+            toast("Logged in succefully!")
+        } catch (err) {
+           console.log(err.response.data)
+           toast.error(err.response.data) 
+        }  
     };
 
     const logout = async(inputs) =>{
         await axios.post(API_BASE_URL + "/api/auth/logout");
         setCurrentUser(null);
+        toast("Logged out successfully!")
     };
 
     useEffect(()=>{

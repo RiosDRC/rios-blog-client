@@ -3,10 +3,11 @@ import Layout from "../hocs/layouts/Layout"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import API_BASE_URL from "../apiConfig";
+import Loading from "../components/Loading";
 
 axios.defaults.withCredentials = true;
 
-const Home = ({searchParams}) => {
+const Home = () => {
     const [posts,setPosts] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
@@ -34,9 +35,7 @@ const Home = ({searchParams}) => {
         <Layout>
             <div className="home">
                 {isLoading && (
-                    <div style={{width: '100%', textAlign: 'center'}}>
-                        Loading...
-                    </div>
+                    <Loading />
                 )}
                 <div className="posts">
                     {posts.map(post=>(

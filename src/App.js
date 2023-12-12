@@ -8,8 +8,14 @@ import Error from "./pages/Error"
 import User from "./pages/User"
 import "./style.scss"
 import Drafts from "./pages/Drafts"
+import LoginView from "./components/LoginView"
+import { useContext } from "react"
+import { AuthContext } from "./context/authContext"
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
+  const { loginView } = useContext(AuthContext)
   return (
     <Router>
       <div className="app">
@@ -26,6 +32,21 @@ function App() {
               <Route path="*" element={<Error />}/>
           </Routes>
         </div>
+          <ToastContainer
+            position='bottom-right'
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme='light'
+          />
+        { loginView &&
+          <LoginView />
+        }
       </div>
     </Router>
   );

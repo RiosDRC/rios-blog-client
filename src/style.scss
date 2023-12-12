@@ -1,13 +1,84 @@
 $lightGreen : #b9e7e7;
 
 .app {
-    display: flex;
-    justify-content: center;
+    //Login view
+
+    #loginView {
+        background: rgba(255, 255, 255, 0.656);
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+
+        .loginWindow {
+            background: $lightGreen;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+            width: 400px;
+            height: 400px;
+            padding: 2rem;
+            border-radius: 3px;
+
+            #close {
+                top: 3px;
+                right: 3px;
+                position: absolute;
+                width: max-content;
+                font-weight: 600;
+                color: teal;
+                cursor: pointer;
+
+                &:hover {
+                    color: black;
+                }
+            }
+            
+            form {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+                padding: 3rem 1rem;
+                background: white;
+
+                h2 {
+                    font-weight: 600;
+                    font-size: 32px;
+                    margin: 0;
+                }
+
+                input {
+                    padding: 10px;
+                    width: 70%;
+                    border: none;
+                    border-bottom: 1px solid gray;
+                }
+
+                button {
+                    margin: 1rem 0;
+                    width: max-content;
+                    padding: 5px 2rem;
+                    background: teal;
+                    color: white;
+                    border: 1px solid teal;
+
+                    &:hover {
+                        color: teal;
+                        background: white;
+                    }
+                }
+            }
+        }
+    }
     .container {
+        margin-inline: auto;
+        width: 70%;
         @media (max-width:1080px){
             width: 90%;
         }
-        width: 70%;
 
         .children{
             margin-top: 110px;
@@ -18,6 +89,7 @@ $lightGreen : #b9e7e7;
             color: inherit;
 
         }
+
         //Login & Register
         .auth{
             display: flex;
@@ -71,26 +143,26 @@ $lightGreen : #b9e7e7;
 
         //Navbar
         .navbarView{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
+            position: fixed;
+            width: 100%;
+            z-index: 10;
             #nav{
-                background-color: white;
-                width: 70%;
-                left: 15%;
-                box-shadow: -30px 0px white;
-
-                @media (max-width:1080px) {
-                    left: 0px;
-                    width: 100%;
-                }
+                padding-inline: 15%;
+                width: 100%;
+                background: white;
+                    @media (max-width:1080px) {
+                        padding-inline: 5%;
+                    }
                 #mainLogo{
                     width: 200px;
                     position: relative;
                     cursor: pointer;
                     &:hover{
                         transform: translateY(-2px);
+                    }
+
+                    @media (max-width: 350px) {
+                        width: 150px;                        
                     }
                 }
 
@@ -129,57 +201,6 @@ $lightGreen : #b9e7e7;
                     &:hover{
                         background-color: teal;
                         color: white;
-                    }
-                }
-            }
-
-            #loginWindow{
-                text-align: end;
-                position: fixed;
-                margin-top: 200px;
-                width: 400px;
-                z-index: 1;
-                opacity: 0.9;
-
-
-                h1{
-                    display: none;
-                }
-
-                #closeButton{
-                    position: relative;
-                    top: -15px;
-                    margin-right: 5px;
-                    margin-bottom: 0px;
-                    cursor: pointer;
-                    opacity: none;
-                    background-color: $lightGreen;
-                    border: 1px solid $lightGreen;
-                    color: teal;
-                    font-size: 14;
-
-                    &:hover{
-                        color: #333;
-                        font-size: 16px;
-                        font-weight: 600;
-                    }
-                }
-                
-                .auth{
-                    background-color: $lightGreen;
-                    border: 1px solid white;
-                    position: absolute;
-                    height: 420px;
-                    width: 400px;
-                    top: -20px;
-                    padding-top: 40px;
-                    padding-bottom: 40px;
-                    z-index: -1;
-
-                    form{
-                        margin: 0px 0px;
-                        width: 300px;
-
                     }
                 }
             }
@@ -626,11 +647,13 @@ $lightGreen : #b9e7e7;
                 display: flex;
                 flex-direction: column;
                 gap: 20px;
+                
                 @media (max-width:1080px){
                     flex-direction: column-reverse;
                 }
-
+                
                 .item{
+                    position: relative;
                     border: 1px solid lightgray;
                     padding: 10px;
                     flex: 1;
@@ -677,6 +700,30 @@ $lightGreen : #b9e7e7;
                         color: rgb(0, 0, 255);
                     }
 
+                    .imgUpload {
+                        position: absolute;
+                        top: 2rem;
+                        right: 2%;
+                        padding: 5px;
+                        border: 1px solid #555;
+
+                        img {
+                            width: 100px;
+                        }
+                        
+                        p {
+                            text-align: center;
+                            text-decoration: underline;
+                            color: teal;
+                            margin: 0;
+                            cursor: pointer;
+
+                            &:hover {
+                                color: black;
+                            }
+                        }
+                    }
+
                     .file{
                         text-decoration: underline;
                         cursor: pointer;
@@ -714,23 +761,22 @@ $lightGreen : #b9e7e7;
         .userEdit{
             display: flex;
             flex-direction: row;
+            gap: 1rem;
+            align-items: stretch;
+            justify-content: center;
+            background-color: white;
             @media (max-width:1080px) {
                 flex-direction:column-reverse;
             }
-            align-items: center;
-            border: 1px solid #333;
-            background-color: $lightGreen;
-
+            
             form {
                 display: flex;
+                flex: 1;
                 flex-direction: column;
-                padding: 25px;
-                gap: 7px;
-                flex: 3;
                 align-items: center;
-                @media (min-width:1080px) {
-                    border-right: 1px solid #333;
-                }
+                gap: .5rem;
+                padding: 2rem;
+                border: 1px solid #777;
 
                 input {
                     padding: 10px;
@@ -772,35 +818,33 @@ $lightGreen : #b9e7e7;
                 }
             }
             .imageSection{
+                flex: 1;
                 display: flex;
                 flex-direction: column;
-                flex: 2;
-                padding: 25px;
                 align-items: center;
-                @media (max-width:1080px) {
-                    border-bottom: 1px solid #333;
-                }
+                justify-content: center;
+                border: 1px solid #777;
+                position: relative;
 
-                img{
-                    padding-top: 10px;
-                    width: 200px;
-                    height: 200px;
+                .profileImg{
+                    margin-top: 1rem;
+                    width: 250px;
+                    height: 250px;
+                    overflow: hidden;
+                    border: 1px solid teal;
                     border-radius: 50%;
-                    object-fit: cover;
-
+                    background: teal;
+                    
                     @media (max-width:720px) {
                         width: 150px;
                         height: 150px;
                     }
                     
-                }
-
-                p{
-                    text-align: center;
-                    width: 200px;
-                    height: 200px;
-                    border-radius: 50%;
-                    background-color: teal;
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
                 }
 
                 .file {
@@ -814,6 +858,26 @@ $lightGreen : #b9e7e7;
                 label{
                     color: teal;
                     text-decoration: underline;
+                }
+
+                .imageOptions {
+                    position: absolute;
+                    top: 0;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 5px;
+                    width: 100%;
+
+                    p {
+                        cursor: pointer;
+                        text-decoration: underline;
+                        color: teal;
+
+                        &:hover {
+                            color: black;
+                        }
+                    }
                 }
             }
         }
@@ -894,4 +958,30 @@ $lightGreen : #b9e7e7;
             }
         }
     }
+}
+
+.rotate-center {
+	-webkit-animation: rotate-center 2s ease-in-out infinite both;
+	        animation: rotate-center 2s ease-in-out infinite both;
+}
+
+ @-webkit-keyframes rotate-center {
+  0% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@keyframes rotate-center {
+  0% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
 }

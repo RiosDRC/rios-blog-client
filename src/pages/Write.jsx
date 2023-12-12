@@ -7,6 +7,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { AuthContext } from "../context/authContext";
 import API_BASE_URL from "../apiConfig";
+import { toast } from "react-toastify";
 
 axios.defaults.withCredentials = true;
 
@@ -36,14 +37,14 @@ const Write = () => {
 
     const handleSubmit = async (action) =>{
         setLoading("Uploading...")
-        const imgUrl = file? await upload() : state?.img || "";
+        const imgUrl = file ? await upload() : state?.img || "";
 
         setLoading("")
 
         try {
             state ? await axios.put(API_BASE_URL + "/api/posts/" + state.id, {
                 title,
-                desc:value,
+                desc: value,
                 img: imgUrl,
                 cat,
                 status: action
@@ -58,7 +59,7 @@ const Write = () => {
                 desc:value,
                 img:file ? imgUrl : "",
                 cat,
-                date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+                date: moment().format("YYYY-MM-DD HH:mm:ss"),
                 status: action
             },
             {
@@ -66,6 +67,7 @@ const Write = () => {
                     'Authorization': `${currentUser.token}`
                   }
             })
+            toast.success('Blog added successfully!')
             navigate("/rios-blog-client/")
         } catch(err) {
             console.log(err)
@@ -94,6 +96,12 @@ const Write = () => {
                         <span>
                             <b>Visibility: </b> Public
                         </span>
+                        {file && (
+                            <div className="imgUpload">
+                                <img src={URL.createObjectURL(file)} alt="" />
+                                <p onClick={() => setFile(null)}>Clear</p>
+                            </div>
+                        )}
                         <input style={{display: "none"}} type="file" id="file" onChange={e=>setFile(e.target.files[0])}/>
                         <label className="file" htmlFor="file">Upload image</label>
                         {currentUser ?

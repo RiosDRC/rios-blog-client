@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"
 import API_BASE_URL from "../apiConfig"
+import { toast } from "react-toastify";
 
 const Register = () => {
     const [inputs, setInputs] = useState({
@@ -9,8 +10,6 @@ const Register = () => {
         email:"",
         password:""
     })
-
-    const [err, setError] = useState(null)
 
     const navigate = useNavigate()
 
@@ -22,10 +21,11 @@ const Register = () => {
         e.preventDefault()
         try {
             await axios.post(API_BASE_URL + "/api/auth/register", inputs);
+            toast.success("User created succefully!")
             navigate("/rios-blog-client/login")
         } catch(err){
             console.log(err)
-            setError(err.response.data)
+            toast.warning(err.response.data)
         }
     }
 
@@ -52,7 +52,6 @@ const Register = () => {
                 name="password" 
                 placeholder="password" />
                 <button onClick={handleSubmit}>Register</button>
-                {err &&<p>{err}</p>}
                 <span>Do you have an account?<div><Link to="/rios-blog-client/login">Login</Link></div></span>
             </form>
         </div>
