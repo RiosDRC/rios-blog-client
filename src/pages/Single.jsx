@@ -10,6 +10,7 @@ import moment from "moment"
 import { AuthContext } from "../context/authContext";
 import DOMPurify from "dompurify"
 import API_BASE_URL from "../apiConfig"
+import { toast } from "react-toastify";
 
 const Single = () => {
     const [post, setPost] = useState({});
@@ -40,7 +41,8 @@ const Single = () => {
                 const res = await axios.get(API_BASE_URL + "/api/posts/" + postId);
                 setPost(res.data);
                 const likesRes = await axios.get(`${API_BASE_URL}/api/posts/likes/${postId}/${currentUser ?currentUser.id : 0}`)
-                setLikes(likesRes.data.count)
+                setLikes(likesRes.data)
+                console.log(likesRes.data)
                 const response = await axios.get(`${API_BASE_URL}/api/comments/${postId}`)
                 setComments(response.data)
             } catch(err) {
@@ -134,9 +136,9 @@ const Single = () => {
                     'Authorization': `${currentUser.token}`
                   }
             })
-            console.log(res.data)
+            toast.success(res.data)
             const likesRes = await axios.get(`${API_BASE_URL}/api/posts/likes/${postId}/${currentUser.id}`)
-            setLikes(likesRes.data.count)
+            setLikes(likesRes.data)
         } catch(err) {
             console.log(err)
         }
@@ -158,16 +160,13 @@ const Single = () => {
                         <div className="right">
                             {currentUser?.username === post.username &&<div className="edit">
                                 <Link to={`/rios-blog-client/write?edit=2`} state={post}>
-                                    <img src={Edit} alt="" />
+                                    <img src={Edit} alt=""/>
                                 </Link>
                                 <img onClick={handleDelete} src={Delete} alt="" />
                             </div>}
                             <div className="likes">
-                                {currentUser &&<img onClick={handleLike} src={Like} alt=""/>}
-                                {likes === 1 ?
-                                    <span>{likes} person likes this post.</span>
-                                    : <span>{likes} people like this post.</span>
-                                }
+                                {currentUser &&<img onClick={handleLike} src={Like} alt=""  style={{filter: `${!likes.liked ? 'invert(0.7)' : ''}`}}/>}
+                                    <span>{likes.count} {likes.count === 1 ? 'person likes' : 'people like'} this post.</span>
                             </div>
                         </div>
                     </div>
