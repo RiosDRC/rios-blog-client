@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/rios-blog-client/static/css/main.a1dec53a.css",
-    "main.js": "/rios-blog-client/static/js/main.e70239e4.js",
+    "main.css": "/rios-blog-client/static/css/main.44bf65b4.css",
+    "main.js": "/rios-blog-client/static/js/main.9b7a1481.js",
     "static/media/logo.png": "/rios-blog-client/static/media/logo.82ea686a566d8687f20e.png",
     "index.html": "/rios-blog-client/index.html",
     "static/media/loading.svg": "/rios-blog-client/static/media/loading.531c5000d5c69f6860bfe83c95609dae.svg",
-    "main.a1dec53a.css.map": "/rios-blog-client/static/css/main.a1dec53a.css.map",
-    "main.e70239e4.js.map": "/rios-blog-client/static/js/main.e70239e4.js.map"
+    "main.44bf65b4.css.map": "/rios-blog-client/static/css/main.44bf65b4.css.map",
+    "main.9b7a1481.js.map": "/rios-blog-client/static/js/main.9b7a1481.js.map"
   },
   "entrypoints": [
-    "static/css/main.a1dec53a.css",
-    "static/js/main.e70239e4.js"
+    "static/css/main.44bf65b4.css",
+    "static/js/main.9b7a1481.js"
   ]
 }
