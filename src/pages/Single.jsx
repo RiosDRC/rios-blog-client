@@ -216,7 +216,7 @@ const Single = () => {
                         </div>
                     </div>
                 </div>
-                {post.cat && <Menu cat={post.cat}/>}
+                {post.cat && <Menu cat={post.cat} postId={post.id}/>}
             </div>
         </Layout>
     );
