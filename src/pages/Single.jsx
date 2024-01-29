@@ -42,7 +42,6 @@ const Single = () => {
                 setPost(res.data);
                 const likesRes = await axios.get(`${API_BASE_URL}/api/posts/likes/${postId}/${currentUser ?currentUser.id : 0}`)
                 setLikes(likesRes.data)
-                console.log(likesRes.data)
                 const response = await axios.get(`${API_BASE_URL}/api/comments/${postId}`)
                 setComments(response.data)
             } catch(err) {
