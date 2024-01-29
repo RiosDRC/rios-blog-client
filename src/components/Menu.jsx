@@ -22,9 +22,9 @@ const Menu = ({cat, postId}) => {
     return (
         <div className="menu">
         {posts.length !== 0 ?
-            posts.map(post=>(
-                <>
-                    <h1>Other posts you may like</h1>
+            <>
+                <h1>Other posts you may like</h1>
+                {posts.map(post=>(
                     <div className="post" key={post.id}>
                         {post.img ?<img src={post.img} alt="" /> :<img alt=""/>}
                         <h2>{post.title}</h2>
@@ -32,8 +32,8 @@ const Menu = ({cat, postId}) => {
                             <button>Read More</button>
                         </Link>
                     </div>
-                </>
-            ))
+                ))}
+            </>
         :
             <h1>No similar posts so far!</h1>
         }        
